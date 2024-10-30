@@ -1,0 +1,39 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Dot {
+  + Dot(int, int, iGraphicObject):
+  + draw(): void
+}
+class GraphicObjectFactory {
+  + GraphicObjectFactory():
+  + getGraphicObject(String, int): iGraphicObject
+}
+class Image {
+  + Image():
+  + addPoint(int, int, String, int): void
+  + draw(): void
+}
+class Main {
+  + Main():
+  + main(String[]): void
+}
+class PrimitiveObject {
+  + PrimitiveObject(String, int):
+  + draw(int, int): void
+}
+interface iGraphicObject << interface >> {
+  + draw(int, int): void
+}
+
+Dot                  "1" *-[#595959,plain]-> "primitive\n1" iGraphicObject
+GraphicObjectFactory  -[#595959,dashed]->  PrimitiveObject      : "«create»"
+GraphicObjectFactory "1" *-[#595959,plain]-> "primitives\n*" iGraphicObject
+Image                 -[#595959,dashed]->  Dot                  : "«create»"
+Image                "1" *-[#595959,plain]-> "points\n*" Dot
+Main                  -[#595959,dashed]->  Image                : "«create»"
+PrimitiveObject       -[#008200,dashed]-^  iGraphicObject
+@enduml
